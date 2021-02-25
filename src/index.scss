@@ -1,6 +1,7 @@
 $primary: #6f42c1;
 
 @import "bootstrap";
+@import url('https://rsms.me/inter/inter.css');
 
 html, body, #root {
   height: 100%;
@@ -9,12 +10,14 @@ html, body, #root {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #000000;
+}
+
+@supports (font-variation-settings: normal) {
+  body { font-family: 'Inter var', sans-serif; }
 }
 
 code {
