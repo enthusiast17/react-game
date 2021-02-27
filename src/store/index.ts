@@ -1,7 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import boardReducer from '../components/Board/board.slice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    board: boardReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
