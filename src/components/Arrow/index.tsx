@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import arrowImg from './arrow-right.png'
+import arrowImg from '../../assets/arrow.png';
 import { RootState } from '../../store';
 
 const Arrow = () => {
