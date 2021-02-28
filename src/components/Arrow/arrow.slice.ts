@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import levels from '../../constants';
 import { ICoordinate } from '../../interfaces';
 
@@ -15,7 +15,13 @@ const initialState: IArrowState = {
 const arrowSlice = createSlice({
   name: 'arrow',
   initialState,
-  reducers: { },
+  reducers: {
+    updateArrow(state: IArrowState, action: PayloadAction<IArrowState>) {
+      return { ...state, ...action.payload }
+    }
+  },
 });
+
+export const { updateArrow } = arrowSlice.actions;
 
 export default arrowSlice.reducer;
