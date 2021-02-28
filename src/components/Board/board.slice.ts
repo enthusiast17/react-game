@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import levels from "../../constants";
-import { IBox, ICoordinate } from "../../interfaces";
+import { createSlice } from '@reduxjs/toolkit';
+import levels from '../../constants';
+import { IBox, ICoordinate } from '../../interfaces';
 
 interface IBoardState {
   level: number,

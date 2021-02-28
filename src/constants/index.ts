@@ -1,4 +1,4 @@
-import {IBox, ICoordinate} from "../interfaces";
+import {IBox, ICoordinate} from '../interfaces';
 
 const createCoordinate = (x: number, y: number): ICoordinate  => ({ x, y });
 
@@ -8,6 +8,7 @@ const levels = [
   {
     id: 0,
     board: [Array.from(Array(6).keys()).map((_, index) => createBox(createCoordinate(0, index)))],
+    arrow: { degree: 0, coordinate: createCoordinate(0, 0) },
     startCoordinate: createCoordinate(0, 0),
     finishCoordinate: createCoordinate(0, 5),
   }
