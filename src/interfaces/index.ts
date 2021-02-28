@@ -5,7 +5,7 @@ interface ICoordinate {
 
 interface IBox {
   hasCoin: boolean,
-  coodinate: ICoordinate,
+  coordinate: ICoordinate,
 }
 
 export type {

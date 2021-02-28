@@ -2,7 +2,7 @@ import {IBox, ICoordinate} from '../interfaces';
 
 const createCoordinate = (x: number, y: number): ICoordinate  => ({ x, y });
 
-const createBox = (coodinate: ICoordinate, hasCoin: boolean = false): IBox => ({ hasCoin, coodinate})
+const createBox = (coordinate: ICoordinate, hasCoin: boolean = false): IBox => ({ hasCoin, coordinate})
 
 const levels = [
   {
