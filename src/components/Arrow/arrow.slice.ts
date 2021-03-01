@@ -18,7 +18,7 @@ const arrowSlice = createSlice({
   reducers: {
     updateArrow(state: IArrowState, action: PayloadAction<IArrowState>) {
       return { ...state, ...action.payload }
-    }
+    },
   },
 });
 

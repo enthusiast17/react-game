@@ -6,7 +6,7 @@
   align-items: center;
 
   .content {
-    width: 500px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,5 +18,9 @@
       flex-direction: row;
       column-gap: 20px;
     }
+
+    // .ace_editor {
+    //   border: 1px solid red;
+    // }
   }
 }

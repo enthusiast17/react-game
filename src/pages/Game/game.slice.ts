@@ -2,12 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IGameState {
   isPageOpen: boolean,
+  isCodeRunning: boolean,
+  isPlayerSolved: boolean,
   level: number,
   code: string,
 }
 
 const initialState: IGameState = {
   isPageOpen: false,
+  isCodeRunning: false,
+  isPlayerSolved: false,
   level: 0,
   code: '// code here',
 };
