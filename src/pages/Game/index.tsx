@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AceEditor from 'react-ace';
 import { useDispatch, useSelector } from 'react-redux';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/webpack-resolver';
 import { RootState, store } from '../../store';
-import { updateGame } from './game.slice';
+import { countUpTime, updateGame } from './game.slice';
 import Board from '../../components/Board';
 import { ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
 import './index.scss';
+import Timer from '../../components/Timer';
+import Score from '../../components/Score';
 
 const Game = () => {
   const dispatch = useDispatch();
   const boardState = useSelector((state: RootState) => state.board);
   const gameState = useSelector((state: RootState) => state.game);
+
+  useEffect(() => {
+    const timer = setInterval(() => dispatch(countUpTime()), 1000);
+    return () => clearInterval(timer);
+  }, [gameState.time])
 
   const handleCodeOnChange = (value: string) => dispatch(updateGame({ ...gameState, code: value }));
 
@@ -52,9 +59,18 @@ const Game = () => {
   return (
     <div className="game">
       <div className="content">
+        <div className="timer-score">
+          <Timer totalSecond={gameState.time} />
+          <Score totalScore={gameState.score} />
+        </div>
         <Board />
         <div className="menu">
-          <button className="btn btn-outline-primary">Guide</button>
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => dispatch(updateGame({...gameState, isPageOpen: false }))}
+          >
+            Exit
+          </button>
           <button className="btn btn-outline-primary">Solution</button>
           {!gameState.isCodeRunning && (
             <button
