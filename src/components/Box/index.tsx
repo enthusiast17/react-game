@@ -26,6 +26,6 @@ const Box = (props: IBox) => {
       )}
     </div>
   )
-}
+};
 
 export default Box;

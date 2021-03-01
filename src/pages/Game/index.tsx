@@ -1,13 +1,20 @@
 import React from 'react';
 import AceEditor from 'react-ace';
-import Board from '../../components/Board';
+import { useDispatch, useSelector } from 'react-redux';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/webpack-resolver';
+import { RootState } from '../../store';
+import { updateGame } from './game.slice';
+import Board from '../../components/Board';
 import './index.scss';
 
-
 const Game = () => {
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.game);
+
+  const handleCodeOnChange = (value: string) => dispatch(updateGame({ ...state, code: value }));
+
   return (
     <div className="game">
       <div className="content">
@@ -23,15 +30,16 @@ const Game = () => {
           theme="monokai"
           name="code"
           fontSize={16}
-          defaultValue="// code here"
+          value={state.code}
           tabSize={2}
           minLines={5}
           maxLines={Infinity}
           editorProps={{ $blockScrolling: true }}
+          onChange={handleCodeOnChange}
         />
       </div>
     </div>
   );
-}
+};
 
 export default Game;

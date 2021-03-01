@@ -4,7 +4,6 @@ import { IBox } from '../../interfaces';
 import { RootState } from '../../store';
 import Box from '../Box';
 
-
 const Board = () => {
   const state = useSelector((state: RootState) => state.board);
 
@@ -17,6 +16,6 @@ const Board = () => {
       ))}
     </div>
   )
-}
+};
 
 export default Board;
