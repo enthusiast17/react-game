@@ -15,9 +15,7 @@ import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
 import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 import levels from '../../constants';
 import './index.scss';
-import { resetBoard } from '../../components/Board/board.slice';
-
-
+import { resetBoard, updateBoard } from '../../components/Board/board.slice';
 
 let timer: NodeJS.Timeout;
 
@@ -26,16 +24,33 @@ const Game = () => {
   const boardState = useSelector((state: RootState) => state.board);
   const gameState = useSelector((state: RootState) => state.game);
 
-  useHotkeys('ctrl+f6', () => {
+  const handleExit = (): void => {
     dispatch(resetGame());
     dispatch(resetBoard());
     dispatch(resetArrow());
     dispatch(goHomePage());
-  });
+  };
 
-  useHotkeys('ctrl+f7', () => {
+  const handleReset = (): void => {
+    const data = levels[gameState.level];
+    dispatch(updateBoard({
+      board: data.board,
+      startCoordinate: data.startCoordinate,
+      finishCoordinate: data.finishCoordinate,
+    }));
+    dispatch(updateArrow({
+      degree: data.arrow.degree,
+      coordinate: data.arrow.coordinate,
+    }));
+  }
+
+  const handleStop = (): void => {
     dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }));
-  });
+  };
+
+  useHotkeys('ctrl+f6', handleExit);
+
+  useHotkeys('ctrl+f7', handleStop);
 
   useHotkeys('ctrl+f8', () => {
     dispatch(updateGame({ ...store.getState().game, code: '// code here' }));
@@ -44,6 +59,8 @@ const Game = () => {
   useHotkeys('ctrl+f9', () => {
     dispatch(updateGame({ ...store.getState().game, code: levels[gameState.level].solution }));
   });
+
+  useHotkeys('ctrl+f10', handleReset);
 
   useEffect(() => {
     timer = setInterval(() => dispatch(countUpTime()), 1000);
@@ -145,12 +162,7 @@ const Game = () => {
         <div className="menu">
           <button
             className="btn btn-outline-danger"
-            onClick={() => {
-              dispatch(resetGame());
-              dispatch(resetBoard());
-              dispatch(resetArrow());
-              dispatch(goHomePage());
-            }}
+            onClick={handleExit}
           >
             Exit
           </button>
@@ -166,6 +178,12 @@ const Game = () => {
           >
             Solution
           </button>
+          <button
+            className="btn btn-outline-primary"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
           {!gameState.isCodeRunning && (
             <button
               className="btn btn-outline-success"
@@ -177,7 +195,7 @@ const Game = () => {
           {gameState.isCodeRunning && (
             <button
               className="btn btn-outline-danger"
-              onClick={() => dispatch(updateGame({ ...gameState, isCodeRunning: false }))}
+              onClick={handleStop}
             >
               Stop
             </button>
