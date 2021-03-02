@@ -6,16 +6,17 @@ import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/webpack-resolver';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { RootState, store } from '../../store';
-import { countUpTime, resetGame, updateGame } from './game.slice';
+import { countUpTime, updateGame } from './game.slice';
 import Board from '../../components/Board';
 import Timer from '../../components/Timer';
 import Score from '../../components/Score';
 import { ICoordinate } from '../../interfaces';
-import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
+import { updateArrow } from '../../components/Arrow/arrow.slice';
 import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 import levels from '../../constants';
 import './index.scss';
-import { resetBoard, updateBoard } from '../../components/Board/board.slice';
+import { updateBoard } from '../../components/Board/board.slice';
+import { storeLastGame } from '../../localstorage';
 
 let timer: NodeJS.Timeout;
 
@@ -25,9 +26,7 @@ const Game = () => {
   const gameState = useSelector((state: RootState) => state.game);
 
   const handleExit = (): void => {
-    dispatch(resetGame());
-    dispatch(resetBoard());
-    dispatch(resetArrow());
+    storeLastGame();
     dispatch(goHomePage());
   };
 
@@ -66,6 +65,7 @@ const Game = () => {
     timer = setInterval(() => dispatch(countUpTime()), 1000);
     return () => {
       clearInterval(timer);
+      storeLastGame();
     };
   }, []);
 
@@ -144,7 +144,7 @@ const Game = () => {
     if (isFinish(store.getState().arrow.coordinate)) {
       dispatch(updateGame({
         ...store.getState().game,
-        score: levels[store.getState().game.level].score,
+        score: store.getState().game.score + levels[store.getState().game.level].score,
         isCodeRunning: false,
       }));
       setTimeout(() => {

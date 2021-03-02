@@ -5,8 +5,13 @@ import { RootState, store } from '../../store';
 import Congratulate from '../Congratulate';
 import Settings from '../Settings';
 import { goGamePage } from './home.slice';
-import './index.scss';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { getLastGame, isLastGameExists } from '../../localstorage';
+import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
+import { resetBoard, updateBoard } from '../../components/Board/board.slice';
+import levels from '../../constants';
+import { resetGame, updateGame } from '../Game/game.slice';
+import './index.scss';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -25,9 +30,41 @@ const Home = () => {
           <div className="btns">
             <button
               className="btn btn-outline-success"
-              onClick={() => dispatch(goGamePage())}
+              onClick={() => {
+                dispatch(resetGame());
+                dispatch(resetBoard());
+                dispatch(resetArrow());
+                dispatch(goGamePage());
+              }}
             >
-              Play game
+              New game
+            </button>
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => {
+                if (!isLastGameExists()) return;
+                const lastGame = getLastGame();
+                const data = levels[lastGame.level];
+                dispatch(updateGame({
+                  isCodeRunning: false,
+                  level: lastGame.level,
+                  score: lastGame.score,
+                  time: 0,
+                  code: lastGame.code,
+                }));
+                dispatch(updateBoard({
+                  board: data.board,
+                  startCoordinate: data.startCoordinate,
+                  finishCoordinate: data.finishCoordinate,
+                }));
+                dispatch(updateArrow({
+                  degree: data.arrow.degree,
+                  coordinate: data.arrow.coordinate,
+                }));
+                dispatch(goGamePage());
+              }}
+            >
+              Continue last game
             </button>
             <button className="btn btn-outline-primary">Score board</button>
             <button className="btn btn-outline-primary">Guide</button>
