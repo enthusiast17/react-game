@@ -19,9 +19,12 @@ const arrowSlice = createSlice({
     updateArrow(state: IArrowState, action: PayloadAction<IArrowState>) {
       return { ...state, ...action.payload }
     },
+    resetArrow() {
+      return { ...initialState };
+    },
   },
 });
 
-export const { updateArrow } = arrowSlice.actions;
+export const { updateArrow, resetArrow } = arrowSlice.actions;
 
 export default arrowSlice.reducer;

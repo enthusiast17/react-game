@@ -1,0 +1,31 @@
+.congratulate {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .content {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 20px;
+
+    .title {
+      margin: 0px;
+      font-size: 36px;
+      font-weight: bold;
+      color: #6f42c1;
+      text-align: center;
+    }
+
+    .subtitle {
+      margin: 0px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #6f42c1;
+      text-align: center;
+    }
+  }
+}

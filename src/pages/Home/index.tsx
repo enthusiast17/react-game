@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Game from '../Game';
-import { RootState } from '../../store';
+import { RootState, store } from '../../store';
 import { updateGame } from '../Game/game.slice';
 import './index.scss';
+import Congratulate from '../Congratulate';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const Home = () => {
 
   return (
     <>
-      {!gameState.isPageOpen && (
+      {!gameState.isPageOpen && !gameState.isPlayerSolved && (
         <div className="home">
           <div className="content">
             <h1 className="title">Show the path -&gt;</h1>
@@ -30,7 +31,9 @@ const Home = () => {
         </div>
       )}
 
-      {gameState.isPageOpen && (<Game />)}
+      {gameState.isPageOpen && !gameState.isPlayerSolved && (<Game />)}
+
+      {!gameState.isPageOpen && gameState.isPlayerSolved && (<Congratulate />)}
     </>
   );
 };

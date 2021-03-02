@@ -27,7 +27,12 @@ const boardSlice = createSlice({
       copyState.board[box.coordinate.x][box.coordinate.y] = box;
       return copyState;
     },
+    resetBoard() {
+      return initialState;
+    },
   },
 });
+
+export const { resetBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;

@@ -7,11 +7,14 @@ import 'ace-builds/webpack-resolver';
 import { RootState, store } from '../../store';
 import { countUpTime, updateGame } from './game.slice';
 import Board from '../../components/Board';
+import Timer from '../../components/Timer';
+import Score from '../../components/Score';
 import { ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
 import './index.scss';
-import Timer from '../../components/Timer';
-import Score from '../../components/Score';
+
+
+let timer: NodeJS.Timeout;
 
 const Game = () => {
   const dispatch = useDispatch();
@@ -19,9 +22,11 @@ const Game = () => {
   const gameState = useSelector((state: RootState) => state.game);
 
   useEffect(() => {
-    const timer = setInterval(() => dispatch(countUpTime()), 1000);
-    return () => clearInterval(timer);
-  }, [gameState.time])
+    timer = setInterval(() => dispatch(countUpTime()), 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleCodeOnChange = (value: string) => dispatch(updateGame({ ...gameState, code: value }));
 
@@ -35,7 +40,7 @@ const Game = () => {
 
   const goForward = () => {
     const state = store.getState().arrow;
-    dispatch(updateArrow({ ...state, coordinate: {...state.coordinate, y: state.coordinate.y + 1}}));
+    dispatch(updateArrow({ ...state, coordinate: { ...state.coordinate, y: state.coordinate.y + 1 } }));
   };
 
   const getCurrentBox = () => {
@@ -44,7 +49,7 @@ const Game = () => {
 
   const runCode = async () => {
     if (store.getState().game.code.trim() === '// code here') return;
-    dispatch(updateGame({...gameState, isCodeRunning: true }))
+      dispatch(updateGame({ ...gameState, isCodeRunning: true, isPlayerSolved: false }))
     try {
       while(store.getState().game.isCodeRunning && !isFinish(getCurrentBox())) {
         await delay(1000);
@@ -53,7 +58,9 @@ const Game = () => {
     } catch (error) {
       console.log(error);
     }
-    dispatch(updateGame({...gameState, isCodeRunning: false }))
+    if (isFinish(store.getState().arrow.coordinate)) {
+      dispatch(updateGame({ ...store.getState().game, isPageOpen: false, isPlayerSolved: true, isCodeRunning: false }));
+    } else dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }))
   }
 
   return (
@@ -67,7 +74,7 @@ const Game = () => {
         <div className="menu">
           <button
             className="btn btn-outline-danger"
-            onClick={() => dispatch(updateGame({...gameState, isPageOpen: false }))}
+            onClick={() => dispatch(updateGame({ ...gameState, isPageOpen: false }))}
           >
             Exit
           </button>
@@ -83,7 +90,7 @@ const Game = () => {
           {gameState.isCodeRunning && (
             <button
               className="btn btn-outline-danger"
-              onClick={() => dispatch(updateGame({...gameState, isCodeRunning: false }))}
+              onClick={() => dispatch(updateGame({ ...gameState, isCodeRunning: false }))}
             >
               Stop
             </button>

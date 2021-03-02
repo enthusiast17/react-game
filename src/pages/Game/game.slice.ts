@@ -29,10 +29,13 @@ const gameSlice = createSlice({
     },
     countUpTime(state: IGameState) {
       return { ...state, time: state.time + 1 };
-    }
+    },
+    resetGame() {
+      return { ...initialState };
+    },
   },
 });
 
-export const { updateGame, countUpTime } = gameSlice.actions;
+export const { updateGame, countUpTime, resetGame } = gameSlice.actions;
 
 export default gameSlice.reducer;
