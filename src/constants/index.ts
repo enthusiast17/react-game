@@ -11,6 +11,7 @@ const levels = [
     arrow: { degree: 0, coordinate: createCoordinate(0, 0) },
     startCoordinate: createCoordinate(0, 0),
     finishCoordinate: createCoordinate(0, 5),
+    solution: '// code here\n\ngoForward();',
   }
 ]
 

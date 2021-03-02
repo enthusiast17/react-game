@@ -5,13 +5,14 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/webpack-resolver';
 import { RootState, store } from '../../store';
-import { countUpTime, updateGame } from './game.slice';
+import { countUpTime, resetGame, updateGame } from './game.slice';
 import Board from '../../components/Board';
 import Timer from '../../components/Timer';
 import Score from '../../components/Score';
 import { ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
 import './index.scss';
+import levels from '../../constants';
 
 
 let timer: NodeJS.Timeout;
@@ -74,11 +75,16 @@ const Game = () => {
         <div className="menu">
           <button
             className="btn btn-outline-danger"
-            onClick={() => dispatch(updateGame({ ...gameState, isPageOpen: false }))}
+            onClick={() => dispatch(resetGame())}
           >
             Exit
           </button>
-          <button className="btn btn-outline-primary">Solution</button>
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => dispatch(updateGame({ ...gameState, code: levels[gameState.level].solution }))}
+          >
+            Solution
+          </button>
           {!gameState.isCodeRunning && (
             <button
               className="btn btn-outline-success"
