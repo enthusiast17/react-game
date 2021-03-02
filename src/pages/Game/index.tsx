@@ -147,7 +147,9 @@ const Game = () => {
         score: levels[store.getState().game.level].score,
         isCodeRunning: false,
       }));
-      dispatch(goCongratulatePage());
+      setTimeout(() => {
+        dispatch(goCongratulatePage());
+      }, 1000);
     } else dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }))
   }
 
