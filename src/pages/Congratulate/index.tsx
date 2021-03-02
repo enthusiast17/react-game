@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetArrow } from '../../components/Arrow/arrow.slice';
-import { resetBoard } from '../../components/Board/board.slice';
+import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
+import { resetBoard, updateBoard } from '../../components/Board/board.slice';
+import levels from '../../constants';
 import { RootState } from '../../store';
-import { resetGame } from '../Game/game.slice';
-import { goHomePage } from '../Home/home.slice';
+import { resetGame, updateGame } from '../Game/game.slice';
+import { goGamePage, goHomePage } from '../Home/home.slice';
 import './index.scss';
 
 const Congratulate = () => {
@@ -20,19 +21,43 @@ const Congratulate = () => {
     dispatch(goHomePage());
   }
 
+  const handleGoNextLevel = (nextLevel: number) => {
+    const data = levels[nextLevel];
+    dispatch(updateGame({
+      isCodeRunning: false,
+      level: nextLevel,
+      score: levels.slice(0, nextLevel + 1).reduce((res, lvl) => res + lvl.score, 0),
+      time: 0,
+      code: '// code here',
+    }));
+    dispatch(updateBoard({
+      board: data.board,
+      startCoordinate: data.startCoordinate,
+      finishCoordinate: data.finishCoordinate,
+    }));
+    dispatch(updateArrow({
+      degree: data.arrow.degree,
+      coordinate: data.arrow.coordinate,
+    }));
+    dispatch(goGamePage());
+  }
+
   return (
     <div className="congratulate">
       <div className="content">
         <h1 className="title">Good job</h1>
         <h2 className="subtitle">You solved {gameState.level} level in {min < 10 ? `0${min}` : min}:{sec < 10 ? `0${sec}` : sec} and got {gameState.score} score.</h2>
-        <button
-          className="btn btn-outline-success"
-        >
-          Go to the next level
-        </button>
+        {levels[gameState.level + 1] && (
+          <button
+            className="btn btn-outline-success"
+            onClick={() => handleGoNextLevel(gameState.level + 1)}
+          >
+            Go to the next level
+          </button>
+        )}
         <button
           className="btn btn-outline-danger"
-          onClick={() => handleExit()}
+          onClick={handleExit}
         >
           Exit
         </button>

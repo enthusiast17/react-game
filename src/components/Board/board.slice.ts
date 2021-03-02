@@ -33,6 +33,6 @@ const boardSlice = createSlice({
   },
 });
 
-export const { resetBoard } = boardSlice.actions;
+export const { updateBoard, updateBox, resetBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;

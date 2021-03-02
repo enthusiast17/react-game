@@ -24,7 +24,7 @@ const levels = [
     arrow: { degree: 0, coordinate: createCoordinate(2, 0) },
     startCoordinate: createCoordinate(2, 0),
     finishCoordinate: createCoordinate(0, 2),
-    solution: '//code\n\nif (isOut(getNextBox())) turnLeft();\nelse goForward();',
+    solution: '// code here\n\nif (isOut(getNextBox())) turnLeft();\nelse goForward();',
     score: 10,
   },
 ]
