@@ -3,7 +3,7 @@ import levels from '../../constants';
 import { IBox, ICoordinate } from '../../interfaces';
 
 interface IBoardState {
-  board: IBox[][],
+  board: (IBox | undefined)[][],
   startCoordinate: ICoordinate,
   finishCoordinate: ICoordinate,
 }

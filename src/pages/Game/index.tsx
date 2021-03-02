@@ -11,10 +11,11 @@ import Board from '../../components/Board';
 import Timer from '../../components/Timer';
 import Score from '../../components/Score';
 import { ICoordinate } from '../../interfaces';
-import { updateArrow } from '../../components/Arrow/arrow.slice';
+import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
 import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 import levels from '../../constants';
 import './index.scss';
+import { resetBoard } from '../../components/Board/board.slice';
 
 
 
@@ -27,6 +28,8 @@ const Game = () => {
 
   useHotkeys('ctrl+f6', () => {
     dispatch(resetGame());
+    dispatch(resetBoard());
+    dispatch(resetArrow());
     dispatch(goHomePage());
   });
 
@@ -59,14 +62,56 @@ const Game = () => {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  const goForward = () => {
+  const move = (coordinate: ICoordinate, degree: number): ICoordinate => {
+    const nextCoordinate = { ...coordinate };
+    switch (degree) {
+      case 90:
+        nextCoordinate.x -= 1;
+        break;
+      case 180:
+        nextCoordinate.y -= 1;
+        break;
+      case 270:
+        nextCoordinate.x += 1;
+        break;
+      default:
+        nextCoordinate.y += 1;
+        break;
+    };
+    return nextCoordinate;
+  }
+
+  const goForward = (): void => {
     const state = store.getState().arrow;
-    dispatch(updateArrow({ ...state, coordinate: { ...state.coordinate, y: state.coordinate.y + 1 } }));
+    switch (state.degree) {
+      case 90:
+        dispatch(updateArrow({ ...state, coordinate: move(state.coordinate, 90) }));
+        break;
+      case 180:
+        dispatch(updateArrow({ ...state, coordinate: move(state.coordinate, 180) }));
+        break;
+      case 270:
+        dispatch(updateArrow({ ...state, coordinate: move(state.coordinate, 270) }));
+        break;
+      default:
+        dispatch(updateArrow({ ...state, coordinate: move(state.coordinate, 0) }));
+        break;
+    }
   };
 
-  const getCurrentBox = () => {
+  const getCurrentBox = (): ICoordinate => {
     return store.getState().arrow.coordinate;
   };
+
+  const isOut = (coordinate: ICoordinate): boolean => store.getState().board.board[coordinate.x][coordinate.y] === undefined;
+
+  const getNextBox = (): ICoordinate => move(store.getState().arrow.coordinate, store.getState().arrow.degree);
+
+  const turnLeft = (): void => {
+    const arrowState = store.getState().arrow;
+    if (arrowState.degree === 270) dispatch(updateArrow({ ...arrowState, degree: 0 }));
+    else dispatch(updateArrow({ ...arrowState, degree: arrowState.degree + 90 }));
+  }
 
   const runCode = async () => {
     if (store.getState().game.code.trim() === '// code here') return;
@@ -102,6 +147,8 @@ const Game = () => {
             className="btn btn-outline-danger"
             onClick={() => {
               dispatch(resetGame());
+              dispatch(resetBoard());
+              dispatch(resetArrow());
               dispatch(goHomePage());
             }}
           >

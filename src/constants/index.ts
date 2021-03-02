@@ -13,7 +13,20 @@ const levels = [
     finishCoordinate: createCoordinate(0, 5),
     solution: '// code here\n\ngoForward();',
     score: 5,
-  }
+  },
+  {
+    id: 1,
+    board: [
+      [undefined, undefined, createBox(createCoordinate(0, 2))],
+      [undefined, undefined, createBox(createCoordinate(1, 2))],
+      Array.from(Array(3).keys()).map((_, index) => createBox(createCoordinate(2, index)))
+    ],
+    arrow: { degree: 0, coordinate: createCoordinate(2, 0) },
+    startCoordinate: createCoordinate(2, 0),
+    finishCoordinate: createCoordinate(0, 2),
+    solution: '//code\n\nif (isOut(getNextBox())) turnLeft();\nelse goForward();',
+    score: 10,
+  },
 ]
 
 export default levels;
