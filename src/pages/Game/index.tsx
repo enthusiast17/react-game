@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/webpack-resolver';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { RootState, store } from '../../store';
 import { countUpTime, resetGame, updateGame } from './game.slice';
 import Board from '../../components/Board';
@@ -11,9 +12,10 @@ import Timer from '../../components/Timer';
 import Score from '../../components/Score';
 import { ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
+import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 import levels from '../../constants';
 import './index.scss';
-import { goCongratulatePage, goHomePage } from '../Home/home.slice';
+
 
 
 let timer: NodeJS.Timeout;
@@ -22,6 +24,23 @@ const Game = () => {
   const dispatch = useDispatch();
   const boardState = useSelector((state: RootState) => state.board);
   const gameState = useSelector((state: RootState) => state.game);
+
+  useHotkeys('ctrl+f6', () => {
+    dispatch(resetGame());
+    dispatch(goHomePage());
+  });
+
+  useHotkeys('ctrl+f7', () => {
+    dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }));
+  });
+
+  useHotkeys('ctrl+f8', () => {
+    dispatch(updateGame({ ...store.getState().game, code: '// code here' }));
+  });
+
+  useHotkeys('ctrl+f9', () => {
+    dispatch(updateGame({ ...store.getState().game, code: levels[gameState.level].solution }));
+  });
 
   useEffect(() => {
     timer = setInterval(() => dispatch(countUpTime()), 1000);

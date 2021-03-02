@@ -1,15 +1,21 @@
 import React, { ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Game from '../Game';
-import { RootState } from '../../store';
+import { RootState, store } from '../../store';
 import Congratulate from '../Congratulate';
 import Settings from '../Settings';
 import { goGamePage } from './home.slice';
 import './index.scss';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const Home = () => {
   const dispatch = useDispatch();
   const homeState = useSelector((state: RootState) => state.home);
+
+  useHotkeys('ctrl+f1', () => {
+    if (store.getState().home.currentPage !== 'Home') return;
+    dispatch(goGamePage())
+  });
 
   const routes: { [key: string]: ReactNode } = {
     'Home': (
