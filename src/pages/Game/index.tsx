@@ -11,8 +11,8 @@ import Timer from '../../components/Timer';
 import Score from '../../components/Score';
 import { ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
-import './index.scss';
 import levels from '../../constants';
+import './index.scss';
 
 
 let timer: NodeJS.Timeout;
@@ -60,7 +60,13 @@ const Game = () => {
       console.log(error);
     }
     if (isFinish(store.getState().arrow.coordinate)) {
-      dispatch(updateGame({ ...store.getState().game, isPageOpen: false, isPlayerSolved: true, isCodeRunning: false }));
+      dispatch(updateGame({
+        ...store.getState().game,
+        score: levels[store.getState().game.level].score,
+        isPageOpen: false,
+        isPlayerSolved: true,
+        isCodeRunning: false
+      }));
     } else dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }))
   }
 

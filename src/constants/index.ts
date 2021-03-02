@@ -12,6 +12,7 @@ const levels = [
     startCoordinate: createCoordinate(0, 0),
     finishCoordinate: createCoordinate(0, 5),
     solution: '// code here\n\ngoForward();',
+    score: 5,
   }
 ]
 
