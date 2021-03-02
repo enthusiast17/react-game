@@ -51,7 +51,7 @@ const Game = () => {
 
   const runCode = async () => {
     if (store.getState().game.code.trim() === '// code here') return;
-      dispatch(updateGame({ ...gameState, isCodeRunning: true }));
+      dispatch(updateGame({ ...store.getState().game, isCodeRunning: true }));
     try {
       while(store.getState().game.isCodeRunning && !isFinish(getCurrentBox())) {
         await delay(1000);
@@ -90,7 +90,13 @@ const Game = () => {
           </button>
           <button
             className="btn btn-outline-primary"
-            onClick={() => dispatch(updateGame({ ...gameState, code: levels[gameState.level].solution }))}
+            onClick={async () => {
+              dispatch(updateGame({
+                ...store.getState().game,
+                code: levels[gameState.level].solution,
+              }));
+              await runCode();
+            }}
           >
             Solution
           </button>
