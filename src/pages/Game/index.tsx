@@ -13,6 +13,7 @@ import { ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
 import levels from '../../constants';
 import './index.scss';
+import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 
 
 let timer: NodeJS.Timeout;
@@ -50,7 +51,7 @@ const Game = () => {
 
   const runCode = async () => {
     if (store.getState().game.code.trim() === '// code here') return;
-      dispatch(updateGame({ ...gameState, isCodeRunning: true, isPlayerSolved: false }))
+      dispatch(updateGame({ ...gameState, isCodeRunning: true }));
     try {
       while(store.getState().game.isCodeRunning && !isFinish(getCurrentBox())) {
         await delay(1000);
@@ -63,10 +64,9 @@ const Game = () => {
       dispatch(updateGame({
         ...store.getState().game,
         score: levels[store.getState().game.level].score,
-        isPageOpen: false,
-        isPlayerSolved: true,
-        isCodeRunning: false
+        isCodeRunning: false,
       }));
+      dispatch(goCongratulatePage());
     } else dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }))
   }
 
@@ -81,7 +81,10 @@ const Game = () => {
         <div className="menu">
           <button
             className="btn btn-outline-danger"
-            onClick={() => dispatch(resetGame())}
+            onClick={() => {
+              dispatch(resetGame());
+              dispatch(goHomePage());
+            }}
           >
             Exit
           </button>

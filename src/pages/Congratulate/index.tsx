@@ -4,6 +4,7 @@ import { resetArrow } from '../../components/Arrow/arrow.slice';
 import { resetBoard } from '../../components/Board/board.slice';
 import { RootState } from '../../store';
 import { resetGame } from '../Game/game.slice';
+import { goHomePage } from '../Home/home.slice';
 import './index.scss';
 
 const Congratulate = () => {
@@ -16,6 +17,7 @@ const Congratulate = () => {
     dispatch(resetBoard());
     dispatch(resetGame());
     dispatch(resetArrow());
+    dispatch(goHomePage());
   }
 
   return (
