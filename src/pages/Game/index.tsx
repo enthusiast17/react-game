@@ -5,6 +5,7 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/webpack-resolver';
 import { useHotkeys } from 'react-hotkeys-hook';
+import useSound from 'use-sound';
 import { RootState, store } from '../../store';
 import { countUpTime, updateGame } from './game.slice';
 import Board from '../../components/Board';
@@ -13,10 +14,12 @@ import Score from '../../components/Score';
 import { IBox, ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
 import { goCongratulatePage, goHomePage } from '../Home/home.slice';
-import levels from '../../constants';
-import './index.scss';
 import { updateBoard, updateBox } from '../../components/Board/board.slice';
 import { storeLastGame, storeStats } from '../../localstorage';
+import moveSoundSrc from '../../assets/audio/move-sound.mp3';
+import backgroundSoundSrc from '../../assets/audio/background-sound.mp3';
+import levels from '../../constants';
+import './index.scss';
 
 let timer: NodeJS.Timeout;
 
@@ -24,9 +27,18 @@ const Game = () => {
   const dispatch = useDispatch();
   const boardState = useSelector((state: RootState) => state.board);
   const gameState = useSelector((state: RootState) => state.game);
+  const settingsState = useSelector((state: RootState) => state.settings);
+  const [moveSound] = useSound(moveSoundSrc, { volume: settingsState.moveSoundVolume });
+  const [backgroundSound, { stop, isPlaying }] = useSound(backgroundSoundSrc, { volume: settingsState.backgroundSoundVolume });
+
+  const playMoveSound = () => {
+    if (settingsState.isMoveSoundPermitted) moveSound();
+  }
 
   const handleExit = (): void => {
     storeLastGame();
+    stop();
+    dispatch(updateGame({ ...store.getState().game, isCodeRunning: false }));
     dispatch(goHomePage());
   };
 
@@ -60,6 +72,11 @@ const Game = () => {
   });
 
   useHotkeys('ctrl+f10', handleReset);
+
+  useEffect(() => {
+    if (!settingsState.isBackgroundSoundPermitted) return;
+    if (!isPlaying) backgroundSound();
+  }, [isPlaying, backgroundSound])
 
   useEffect(() => {
     timer = setInterval(() => dispatch(countUpTime()), 1000);
@@ -113,6 +130,7 @@ const Game = () => {
         dispatch(updateArrow({ ...state, coordinate: move(state.coordinate, 0) }));
         break;
     }
+    playMoveSound();
   };
 
   const getCurrentBox = (): ICoordinate => {
@@ -144,12 +162,14 @@ const Game = () => {
     const arrowState = store.getState().arrow;
     if (arrowState.degree === 270) dispatch(updateArrow({ ...arrowState, degree: 0 }));
     else dispatch(updateArrow({ ...arrowState, degree: arrowState.degree + 90 }));
+    playMoveSound();
   }
 
   const turnRight = (): void => {
     const arrowState = store.getState().arrow;
     if (arrowState.degree === 0) dispatch(updateArrow({ ...arrowState, degree: 360 }));
     else dispatch(updateArrow({ ...arrowState, degree: arrowState.degree - 90 }));
+    playMoveSound();
   };
 
   const runCode = async () => {

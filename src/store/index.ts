@@ -3,6 +3,7 @@ import boardReducer from '../components/Board/board.slice';
 import arrowReducer from '../components/Arrow/arrow.slice';
 import gameReducer from '../pages/Game/game.slice';
 import homeReducer from '../pages/Home/home.slice';
+import settingsReducer from '../pages/Settings/settings.slice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     arrow: arrowReducer,
     game: gameReducer,
     home: homeReducer,
+    settings: settingsReducer,
   },
 });
 

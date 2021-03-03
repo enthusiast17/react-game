@@ -1,18 +1,19 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Game from '../Game';
 import { RootState, store } from '../../store';
 import Congratulate from '../Congratulate';
 import Settings from '../Settings';
-import { goGamePage, goStatisticsPage } from './home.slice';
+import { goGamePage, goSettingsPage, goStatisticsPage } from './home.slice';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { getLastGame, isLastGameExists } from '../../localstorage';
 import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
 import { resetBoard, updateBoard } from '../../components/Board/board.slice';
 import levels from '../../constants';
 import { resetGame, updateGame } from '../Game/game.slice';
-import './index.scss';
 import Statistics from '../Statistics';
+import useSound from 'use-sound';
+import './index.scss';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -72,7 +73,14 @@ const Home = () => {
               onClick={() => dispatch(goStatisticsPage())}
             >Statistics</button>
             <button className="btn btn-outline-primary">Guide</button>
-            <button className="btn btn-outline-primary">Settings</button>
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => {
+                dispatch(goSettingsPage());
+              }}
+            >
+              Settings
+            </button>
           </div>
         </div>
       </div>

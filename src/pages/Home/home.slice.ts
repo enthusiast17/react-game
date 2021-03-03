@@ -26,7 +26,7 @@ const homeSlice = createSlice({
     },
     goStatisticsPage(state: IHomeState) {
       return { ...state, currentPage: 'Statistics' };
-    }
+    },
   },
 });
 
