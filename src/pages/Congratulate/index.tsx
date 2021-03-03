@@ -50,7 +50,7 @@ const Congratulate = () => {
     <div className="congratulate">
       <div className="content">
         <h1 className="title">Good job</h1>
-        <h2 className="subtitle">You solved {gameState.level} level in {min < 10 ? `0${min}` : min}:{sec < 10 ? `0${sec}` : sec}, got extra {levels[gameState.level].score} and total {gameState.score} score.</h2>
+        <h2 className="subtitle">You solved {gameState.level} level in {min < 10 ? `0${min}` : min}:{sec < 10 ? `0${sec}` : sec} and got total {gameState.score} score.</h2>
         {levels[gameState.level + 1] && (
           <button
             className="btn btn-outline-success"
