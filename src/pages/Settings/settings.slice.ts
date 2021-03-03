@@ -5,6 +5,7 @@ interface ISettingsState {
   isMoveSoundPermitted: boolean,
   backgroundSoundVolume: number,
   moveSoundVolume: number,
+  isFullScreen: boolean,
 }
 
 const initialState: ISettingsState = {
@@ -12,6 +13,7 @@ const initialState: ISettingsState = {
   isMoveSoundPermitted: true,
   backgroundSoundVolume: 1,
   moveSoundVolume: 1,
+  isFullScreen: false,
 };
 
 const settingsSlice = createSlice({

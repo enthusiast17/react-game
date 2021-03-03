@@ -90,6 +90,40 @@ const Settings = () => {
             >+</button>
           </div>
         </div>
+        {!settingsState.isFullScreen && (
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => {
+              if (document.fullscreenElement === null) {
+                if (document.body.requestFullscreen) {
+                  document.body.requestFullscreen();
+                }
+                dispatch(updateSettings({
+                  ...settingsState,
+                  isFullScreen: true,
+                }));
+              }
+            }}
+          >
+            Full screen
+          </button>
+        )}
+        {settingsState.isFullScreen && (
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => {
+              if (document.fullscreenElement !== null) {
+                document.exitFullscreen();
+                dispatch(updateSettings({
+                  ...settingsState,
+                  isFullScreen: false,
+                }));
+              }
+            }}
+          >
+            Close full screen
+          </button>
+        )}
         <button
           className="btn btn-outline-danger"
           onClick={() => dispatch(goHomePage())}
