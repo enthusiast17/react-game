@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
 import { resetBoard, updateBoard } from '../../components/Board/board.slice';
@@ -33,7 +33,6 @@ const Congratulate = () => {
       degree: data.arrow.degree,
       coordinate: data.arrow.coordinate,
     }));
-    dispatch(goGamePage());
   }
 
   const handleExit = () => {
@@ -55,7 +54,11 @@ const Congratulate = () => {
         {levels[gameState.level + 1] && (
           <button
             className="btn btn-outline-success"
-            onClick={() => handleGoNextLevel(gameState.level + 1)}
+            onClick={() => {
+              handleGoNextLevel(gameState.level + 1);
+              storeLastGame();
+              dispatch(goGamePage());
+            }}
           >
             Go to the next level
           </button>

@@ -16,7 +16,7 @@ import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 import levels from '../../constants';
 import './index.scss';
 import { updateBoard } from '../../components/Board/board.slice';
-import { storeLastGame } from '../../localstorage';
+import { storeLastGame, storeStats } from '../../localstorage';
 
 let timer: NodeJS.Timeout;
 
@@ -65,7 +65,6 @@ const Game = () => {
     timer = setInterval(() => dispatch(countUpTime()), 1000);
     return () => {
       clearInterval(timer);
-      storeLastGame();
     };
   }, []);
 
@@ -142,11 +141,14 @@ const Game = () => {
       console.log(error);
     }
     if (isFinish(store.getState().arrow.coordinate)) {
+      clearInterval(timer);
+      storeLastGame();
       dispatch(updateGame({
         ...store.getState().game,
         score: store.getState().game.score + levels[store.getState().game.level].score,
         isCodeRunning: false,
       }));
+      storeStats();
       setTimeout(() => {
         dispatch(goCongratulatePage());
       }, 1000);
