@@ -37,8 +37,10 @@ const Congratulate = () => {
   }
 
   const handleExit = () => {
-    handleGoNextLevel(gameState.level + 1);
-    storeLastGame();
+    if (levels[gameState.level + 1]) {
+      handleGoNextLevel(gameState.level + 1);
+      storeLastGame();
+    }
     dispatch(resetBoard());
     dispatch(resetGame());
     dispatch(resetArrow());
