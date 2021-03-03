@@ -37,7 +37,7 @@ const levels = [
     arrow: { degree: 0, coordinate: createCoordinate(1, 0) },
     startCoordinate: createCoordinate(1, 0),
     finishCoordinate: createCoordinate(0, 2),
-    solution: '// code here\n\nif (isCoin(getCurrentBox())) {\n turnLeft();\n getCoin(getCurrentBox());\n}\nelse if (isOut(getNextBox())) {\n turnRight();\n}\nelse goForward();\n',
+    solution: '// code here\n\nif (isCoin(getCurrentBox())) {\n getCoin(getCurrentBox());\n}\nelse if (isOut(getNextBox())) {\n turnRight();\n}\nelse goForward();\n',
     score: 15,
   },
   {
