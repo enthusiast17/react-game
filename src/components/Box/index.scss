@@ -1,12 +1,16 @@
-.box {
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #6f42c1;
-}
+.box-container {
+  padding: 1px;
+  .box {
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #272822;
+    border: 1px solid #6f42c1;
+  }
 
-.is-finish {
-  border-color: #28a745;
+  .is-finish {
+    border-color: #28a745;
+  }
 }

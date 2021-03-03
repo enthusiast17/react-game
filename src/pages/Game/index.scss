@@ -6,7 +6,7 @@
   align-items: center;
 
   .content {
-    width: 400px;
+    width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,11 +22,28 @@
     .menu {
       display: flex;
       flex-direction: row;
-      column-gap: 20px;
+      column-gap: 10px;
     }
 
     // .ace_editor {
     //   border: 1px solid red;
     // }
+  }
+}
+
+
+@media (max-width: 500px) {
+  .game {
+    .content {
+      width: 400px;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .game {
+    .content {
+      width: 300px;
+    }
   }
 }

@@ -22,10 +22,12 @@ const boardSlice = createSlice({
       return { ...state, ...action.payload };
     },
     updateBox(state: IBoardState, action: PayloadAction<IBox>) {
-      const box = action.payload;
-      const copyState = { ...state };
-      copyState.board[box.coordinate.x][box.coordinate.y] = box;
-      return copyState;
+      return { ...state, board: state.board.map((row, i) => row.map((box, j) => {
+        if (i === action.payload.coordinate.x && j === action.payload.coordinate.y) {
+          return action.payload;
+        }
+        return box;
+      })) };
     },
     resetBoard() {
       return initialState;

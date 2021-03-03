@@ -7,11 +7,11 @@ const createBox = (coordinate: ICoordinate, hasCoin: boolean = false): IBox => (
 const levels = [
   {
     id: 0,
-    board: [Array.from(Array(6).keys()).map((_, index) => createBox(createCoordinate(0, index)))],
+    board: [Array.from(Array(3).keys()).map((_, index) => createBox(createCoordinate(0, index)))],
     arrow: { degree: 0, coordinate: createCoordinate(0, 0) },
     startCoordinate: createCoordinate(0, 0),
-    finishCoordinate: createCoordinate(0, 5),
-    solution: '// code here\n\ngoForward();',
+    finishCoordinate: createCoordinate(0, 2),
+    solution: '// code here\n\ngoForward();\n',
     score: 5,
   },
   {
@@ -24,9 +24,49 @@ const levels = [
     arrow: { degree: 0, coordinate: createCoordinate(2, 0) },
     startCoordinate: createCoordinate(2, 0),
     finishCoordinate: createCoordinate(0, 2),
-    solution: '// code here\n\nif (isOut(getNextBox())) turnLeft();\nelse goForward();',
+    solution: '// code here\n\nif (isOut(getNextBox())) turnLeft();\nelse goForward();\n',
     score: 10,
   },
+  {
+    id: 2,
+    board: [
+      [undefined, createBox(createCoordinate(0, 1)), createBox(createCoordinate(0, 2))],
+      [createBox(createCoordinate(1, 0)), createBox(createCoordinate(1, 1), true), undefined],
+      [undefined, createBox(createCoordinate(2, 1)), undefined],
+    ],
+    arrow: { degree: 0, coordinate: createCoordinate(1, 0) },
+    startCoordinate: createCoordinate(1, 0),
+    finishCoordinate: createCoordinate(0, 2),
+    solution: '// code here\n\nif (isCoin(getCurrentBox())) {\n turnLeft();\n getCoin(getCurrentBox());\n}\nelse if (isOut(getNextBox())) {\n turnRight();\n}\nelse goForward();\n',
+    score: 15,
+  },
+  {
+    id: 3,
+    board: [
+      [createBox(createCoordinate(0, 0)), createBox(createCoordinate(0, 1)), createBox(createCoordinate(0, 2), true)],
+      [createBox(createCoordinate(1, 0)), undefined, createBox(createCoordinate(1, 2))],
+      [createBox(createCoordinate(2, 0)), createBox(createCoordinate(2, 1)), createBox(createCoordinate(2, 2), true)],
+      [undefined, undefined, createBox(createCoordinate(3, 2))],
+    ],
+    arrow: { degree: 90, coordinate: createCoordinate(3, 2) },
+    startCoordinate: createCoordinate(3, 2),
+    finishCoordinate: createCoordinate(0, 0),
+    solution: '// code here\n\nif (isOut(getNextBox())) {\n turnLeft();\n} \n else if (isCoin(getCurrentBox())) {\n getCoin(getCurrentBox());\n}\n else {\n goForward();\n}\n',
+    score: 20,
+  },
+  {
+    id: 4,
+    board: [
+      [createBox(createCoordinate(0, 0)), createBox(createCoordinate(0, 1)), createBox(createCoordinate(0, 2))],
+      [createBox(createCoordinate(1, 0)), undefined, undefined],
+      [createBox(createCoordinate(2, 0)), createBox(createCoordinate(2, 1)), createBox(createCoordinate(2, 2))],
+    ],
+    arrow: { degree: 180, coordinate: createCoordinate(0, 2) },
+    startCoordinate: createCoordinate(0, 2),
+    finishCoordinate: createCoordinate(2, 2),
+    solution: '// code here\n\nif (isOut(getNextBox())) {\n turnLeft();\n} else goForward()\n',
+    score: 5,
+  }
 ]
 
 export default levels;

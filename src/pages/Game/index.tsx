@@ -10,12 +10,12 @@ import { countUpTime, updateGame } from './game.slice';
 import Board from '../../components/Board';
 import Timer from '../../components/Timer';
 import Score from '../../components/Score';
-import { ICoordinate } from '../../interfaces';
+import { IBox, ICoordinate } from '../../interfaces';
 import { updateArrow } from '../../components/Arrow/arrow.slice';
 import { goCongratulatePage, goHomePage } from '../Home/home.slice';
 import levels from '../../constants';
 import './index.scss';
-import { updateBoard } from '../../components/Board/board.slice';
+import { updateBoard, updateBox } from '../../components/Board/board.slice';
 import { storeLastGame, storeStats } from '../../localstorage';
 
 let timer: NodeJS.Timeout;
@@ -119,7 +119,24 @@ const Game = () => {
     return store.getState().arrow.coordinate;
   };
 
-  const isOut = (coordinate: ICoordinate): boolean => store.getState().board.board[coordinate.x][coordinate.y] === undefined;
+  const isOut = (coordinate: ICoordinate): boolean => (
+    store.getState().board.board[coordinate.x] === undefined ||
+    store.getState().board.board[coordinate.x][coordinate.y] === undefined
+  );
+
+  const isCoin = (coordinate: ICoordinate): boolean => {
+    const box = store.getState().board.board[coordinate.x][coordinate.y];
+    return box !== undefined && box.hasCoin;
+  };
+
+  const getCoin = (coordinate: ICoordinate): void => {
+    if (store.getState().board.board[coordinate.x][coordinate.y] === undefined) return;
+    const copyBox = { ...store.getState().board.board[coordinate.x][coordinate.y] } as IBox;
+    if (copyBox !== undefined && copyBox.hasCoin) {
+      dispatch(updateBox({ ...copyBox, hasCoin: false }));
+      dispatch(updateGame({ ...store.getState().game, score: store.getState().game.score + 5 }));
+    }
+  }
 
   const getNextBox = (): ICoordinate => move(store.getState().arrow.coordinate, store.getState().arrow.degree);
 
@@ -128,6 +145,12 @@ const Game = () => {
     if (arrowState.degree === 270) dispatch(updateArrow({ ...arrowState, degree: 0 }));
     else dispatch(updateArrow({ ...arrowState, degree: arrowState.degree + 90 }));
   }
+
+  const turnRight = (): void => {
+    const arrowState = store.getState().arrow;
+    if (arrowState.degree === 0) dispatch(updateArrow({ ...arrowState, degree: 360 }));
+    else dispatch(updateArrow({ ...arrowState, degree: arrowState.degree - 90 }));
+  };
 
   const runCode = async () => {
     if (store.getState().game.code.trim() === '// code here') return;

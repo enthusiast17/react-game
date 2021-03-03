@@ -1,7 +1,11 @@
-.empty-box {
-  height: 50px;
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.empty-box-container {
+  padding: 1px;
+  .empty-box {
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+  }
 }

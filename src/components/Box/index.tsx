@@ -16,14 +16,16 @@ const Box = (props: IBox) => {
   );
 
   return (
-    <div className={isCoordinatesEqual(coordinate, finishCoordinate) ? 'box is-finish' : 'box'}>
-      {isCoordinatesEqual(coordinate, arrowCoordinate) && (
-        <Arrow />
-      )}
+    <div className="box-container">
+      <div className={isCoordinatesEqual(coordinate, finishCoordinate) ? 'box is-finish' : 'box'}>
+        {isCoordinatesEqual(coordinate, arrowCoordinate) && (
+          <Arrow />
+        )}
 
-      {hasCoin && (
-        <img src={coinImg} alt="coin" />
-      )}
+        {hasCoin && (
+          <img src={coinImg} alt="coin" />
+        )}
+      </div>
     </div>
   )
 };
