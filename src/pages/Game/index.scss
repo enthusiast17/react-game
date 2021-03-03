@@ -1,0 +1,46 @@
+.game {
+  padding: 10px;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+    
+    .timer-score {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: row;
+      column-gap: 10px;
+    }
+  }
+}
+
+
+@media (max-width: 500px) {
+  .game {
+    .content {
+      width: 400px;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .game {
+    .content {
+      width: 300px;
+    }
+  }
+}

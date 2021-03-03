@@ -1,0 +1,31 @@
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .logo {
+    padding: 2px;
+    display: inline-block;
+    background: white;
+    border-radius: 5px;
+
+    img {
+      height: 50px;
+      width: 70px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .github {
+    font-size: 16px;
+    color: #6f42c1;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

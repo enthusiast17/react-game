@@ -1,0 +1,27 @@
+$primary: #6f42c1;
+
+@import "bootstrap";
+@import url('https://rsms.me/inter/inter.css');
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #000000;
+}
+
+@supports (font-variation-settings: normal) {
+  body { font-family: 'Inter var', sans-serif; }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
