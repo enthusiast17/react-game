@@ -15,6 +15,7 @@ import Statistics from '../Statistics';
 import useSound from 'use-sound';
 import './index.scss';
 import Guide from '../Guide';
+import Footer from '../../components/Footer';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ const Home = () => {
               Settings
             </button>
           </div>
+          <Footer />
         </div>
       </div>
     ),
