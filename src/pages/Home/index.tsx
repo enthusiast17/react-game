@@ -4,7 +4,7 @@ import Game from '../Game';
 import { RootState, store } from '../../store';
 import Congratulate from '../Congratulate';
 import Settings from '../Settings';
-import { goGamePage, goSettingsPage, goStatisticsPage } from './home.slice';
+import { goGamePage, goGuidePage, goSettingsPage, goStatisticsPage } from './home.slice';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { getLastGame, isLastGameExists } from '../../localstorage';
 import { resetArrow, updateArrow } from '../../components/Arrow/arrow.slice';
@@ -14,6 +14,7 @@ import { resetGame, updateGame } from '../Game/game.slice';
 import Statistics from '../Statistics';
 import useSound from 'use-sound';
 import './index.scss';
+import Guide from '../Guide';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -71,8 +72,15 @@ const Home = () => {
             <button
               className="btn btn-outline-primary"
               onClick={() => dispatch(goStatisticsPage())}
-            >Statistics</button>
-            <button className="btn btn-outline-primary">Guide</button>
+            >
+              Statistics
+            </button>
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => dispatch(goGuidePage())}
+            >
+              Guide
+            </button>
             <button
               className="btn btn-outline-primary"
               onClick={() => {
@@ -89,6 +97,7 @@ const Home = () => {
     'Congratulate': (<Congratulate />),
     'Settings': (<Settings />),
     'Statistics': (<Statistics />),
+    'Guide': (<Guide />)
   }
 
   return (

@@ -27,9 +27,12 @@ const homeSlice = createSlice({
     goStatisticsPage(state: IHomeState) {
       return { ...state, currentPage: 'Statistics' };
     },
+    goGuidePage(state: IHomeState) {
+      return { ...state, currentPage: 'Guide'};
+    },
   },
 });
 
-export const { goHomePage, goGamePage, goCongratulatePage, goSettingsPage, goStatisticsPage } = homeSlice.actions;
+export const { goHomePage, goGamePage, goCongratulatePage, goSettingsPage, goStatisticsPage, goGuidePage } = homeSlice.actions;
 
 export default homeSlice.reducer;
