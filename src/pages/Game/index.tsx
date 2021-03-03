@@ -31,6 +31,8 @@ const Game = () => {
   const [moveSound] = useSound(moveSoundSrc, { volume: settingsState.moveSoundVolume });
   const [backgroundSound, { stop, isPlaying }] = useSound(backgroundSoundSrc, { volume: settingsState.backgroundSoundVolume });
 
+  useEffect(() => stop, [stop]);
+
   const playMoveSound = () => {
     if (settingsState.isMoveSoundPermitted) moveSound();
   }
